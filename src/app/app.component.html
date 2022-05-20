@@ -1,0 +1,29 @@
+<hello name="{{ name }}"></hello>
+<hr />
+<div *ngIf="!auth">
+  <div>Usuario:</div>
+  <div><input type="text" [(ngModel)]="login" /></div>
+  <div>Senha:</div>
+  <div><input type="password" [(ngModel)]="password" /></div>
+  <hr />
+  <div>
+    <input type="button" value="Entrar" (click)="postLogin()" />
+  </div>
+</div>
+
+<div *ngIf="auth">
+  Bem vindo, {{ auth.username }}
+  <input type="button" value="Sair" (click)="postLogout()" />
+
+  <div>
+    <button (click)="getList()">Atualizar</button>
+    <h2>Lista de produtos</h2>
+    <table>
+      <tr *ngFor="let item of list">
+        <th>{{ item['id'] }}</th>
+        <th>{{ item['produtos'] }}</th>
+        <th>{{ item['valor'] }}</th>
+      </tr>
+    </table>
+  </div>
+</div>
