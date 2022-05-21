@@ -1,3 +1,4 @@
+import { JsonPipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, VERSION } from '@angular/core';
 
@@ -7,6 +8,7 @@ interface Auth {
   username: string;
   profile: Array<string>;
 }
+
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
@@ -42,13 +44,8 @@ export class AppComponent {
 
   //Metodo de devolução de tabela
   getList() {
-    this.http
-      .get<any>((this.site = '/produtos'), {
-        //Padrao de autorizacao por token
-        headers: { Authorization: 'Bearer' + this.auth.token },
-      })
-      .subscribe((data) => {
-        this.list = data;
-      });
+    this.http.get<any>(this.site + '/produtos', {}).subscribe((data) => {
+      this.list = data;
+    });
   }
 }
