@@ -17,8 +17,8 @@ interface Auth {
 export class AppComponent {
   name = 'My spring boot app';
   site = 'https://app-api-cardapio.herokuapp.com';
-  login = ''; //matheusv
-  password = ''; //12345
+  login = 'matheusv'; //matheusv
+  password = '12345'; //12345
 
   auth = null;
 
