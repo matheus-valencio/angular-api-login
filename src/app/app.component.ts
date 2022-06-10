@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, VERSION } from '@angular/core';
 
 //interface que reproduz o q o mecanismo de autenticação retorna
@@ -16,15 +16,17 @@ interface Auth {
 })
 export class AppComponent {
   name = 'My spring boot app';
-  site = 'https://app-api-cardapio.herokuapp.com';
-  login = 'matheusv'; //matheusv
-  password = '12345'; //12345
+  site = 'http://localhost:8080';
+  login = 'admin'; //matheusv
+  password = 'admin'; //12345
 
   auth = null;
 
   list = null;
 
   constructor(private http: HttpClient) {}
+
+  header = null;
 
   //Metodo que ativa o auth
   postLogin() {
@@ -35,6 +37,14 @@ export class AppComponent {
       })
       .subscribe((data) => {
         this.auth = data;
+        this.header = {
+          headers: new HttpHeaders().set(
+            'Authorization',
+            `Bearer ${this.auth.token}`
+          ),
+        };
+
+        console.log(this.header);
       });
   }
   //Metodo que anula o auth
@@ -44,8 +54,17 @@ export class AppComponent {
 
   //Metodo de devolução de tabela
   getList() {
-    this.http.get<any>(this.site + '/produtos', {}).subscribe((data) => {
-      this.list = data;
-    });
+    if (this.auth.profile[0] == ['ADMIN']) {
+      this.http.get<any>(this.site + '/produtos', {}).subscribe((data) => {
+        this.list = data;
+        console.log(data);
+      });
+    }
+  }
+
+  deletarProduto() {
+    this.http
+      .delete<any>(this.site + '/produtos/' + 34)
+      .subscribe(() => {});
   }
 }

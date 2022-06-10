@@ -37,6 +37,7 @@
         <td>R$ {{ item['valor'] }}</td>
         <td>{{ item['descricao'] }}</td>
         <td>{{ item['categoria'] }}</td>
+        <button (click)="deletarProduto()">Deletar</button>
       </tr>
     </table>
   </div>
