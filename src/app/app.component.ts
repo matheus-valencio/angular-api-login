@@ -1,5 +1,5 @@
 import { JsonPipe } from '@angular/common';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { Component, VERSION } from '@angular/core';
 
 //interface que reproduz o q o mecanismo de autenticação retorna
@@ -27,6 +27,14 @@ export class AppComponent {
   constructor(private http: HttpClient) {}
 
   header = null;
+
+  formData = new FormData();
+
+  imagem: File;
+
+  nome: string;
+  valor: Number;
+  categoria: string;
 
   //Metodo que ativa o auth
   postLogin() {
@@ -62,9 +70,36 @@ export class AppComponent {
     }
   }
 
-  deletarProduto() {
+  deletarProduto(id) {
     this.http
-      .delete<any>(this.site + '/produtos/' + 34)
-      .subscribe(() => {});
+      .delete<any>(this.site + '/produtos/' + id, this.header)
+      .subscribe(() => {
+        this.getList();
+      });
+  }
+
+  postimagem() {
+    this.formData.append('file', this.imagem);
+    this.formData.append('nome', this.nome);
+    console.log(this.formData);
+    const request = new HttpRequest(
+      'POST',
+      this.site + '/produtos',
+      this.formData,
+      this.header
+    );
+    this.http
+      .request(request)
+      .subscribe((data) => {
+        console.log(data);
+      });
+  }
+
+  postCategoria() {
+    this.http
+      .post<any>(this.site + '/categoria', { nome: this.nome }, this.header)
+      .subscribe((data) => {
+        console.log(data);
+      });
   }
 }

@@ -37,8 +37,13 @@
         <td>R$ {{ item['valor'] }}</td>
         <td>{{ item['descricao'] }}</td>
         <td>{{ item['categoria'] }}</td>
-        <button (click)="deletarProduto()">Deletar</button>
+        <button (click)="deletarProduto(item['id'])">Deletar</button>
       </tr>
     </table>
+    <input type="file" accept="image/jpeg" [(ngModel)]="imagem" />
+    <input type="text" name="nome" [(ngModel)]="nome" />
+    <input type="number" name="valor" [(ngModel)]="valor" />
+    <button (click)="postCategoria()">categoria</button>
+    <button (click)="postimagem()">produto</button>
   </div>
 </div>
